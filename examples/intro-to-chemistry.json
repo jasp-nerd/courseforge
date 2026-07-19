@@ -1,0 +1,108 @@
+{
+  "$comment": "Example CourseSpec — build it with: npx courseforge-imscc build examples/intro-to-chemistry.json",
+  "course": {
+    "title": "Introduction to Chemistry",
+    "code": "CHEM-101",
+    "defaultView": "modules",
+    "syllabus": "<h2>CHEM-101 · Introduction to Chemistry</h2><p>This course introduces matter, atomic structure, and chemical bonding. Grading: 60% assignments, 40% participation. Late work loses 10% per day.</p>"
+  },
+  "assignmentGroups": [
+    { "name": "Assignments", "weight": 60 },
+    { "name": "Participation", "weight": 40 }
+  ],
+  "modules": [
+    {
+      "name": "Week 1 — Matter",
+      "items": [
+        { "type": "header", "title": "🚀 Start here" },
+        {
+          "type": "page",
+          "title": "Welcome & Overview",
+          "body": "<h2>Welcome to CHEM-101!</h2><p>This week we ask the oldest question in chemistry: <em>what is stuff made of?</em></p><ul><li>Read the LibreTexts chapter below</li><li>Sign the lab safety contract</li><li>Introduce yourself in the discussion</li></ul>",
+          "published": true
+        },
+        {
+          "type": "link",
+          "title": "Reading: The Scope of Chemistry",
+          "url": "https://chem.libretexts.org/Bookshelves/Introductory_Chemistry"
+        },
+        {
+          "type": "assignment",
+          "title": "Lab Safety Contract",
+          "body": "<p>Download the safety contract, sign it, and upload a scan or photo.</p>",
+          "points": 10,
+          "submissionTypes": ["online_upload"],
+          "dueAt": "2026-09-07T23:59:00",
+          "assignmentGroup": "Assignments"
+        },
+        {
+          "type": "discussion",
+          "title": "Introduce yourself",
+          "body": "<p>Say hi! Share your name, program, and one thing you want to learn in this course.</p>",
+          "graded": true,
+          "points": 5,
+          "assignmentGroup": "Participation"
+        }
+      ]
+    },
+    {
+      "name": "Week 2 — Atoms",
+      "items": [
+        {
+          "type": "page",
+          "title": "Atomic structure",
+          "body": "<h2>Atoms</h2><p>Protons, neutrons, electrons — and why the periodic table looks the way it does.</p>",
+          "published": true
+        },
+        {
+          "type": "quiz",
+          "title": "Atoms checkpoint",
+          "description": "<p>A quick check on atomic structure. One attempt.</p>",
+          "dueAt": "2026-09-14T23:59:00",
+          "assignmentGroup": "Assignments",
+          "questions": [
+            {
+              "type": "multiple_choice",
+              "text": "<p>What is the charge of a proton?</p>",
+              "points": 2,
+              "answers": [
+                { "text": "Positive", "correct": true },
+                { "text": "Negative" },
+                { "text": "Neutral" }
+              ]
+            },
+            {
+              "type": "true_false",
+              "text": "<p>Electrons are located in the nucleus.</p>",
+              "points": 1,
+              "correct": false
+            },
+            {
+              "type": "short_answer",
+              "text": "<p>What is the chemical symbol for gold?</p>",
+              "points": 1,
+              "acceptedAnswers": ["Au", "au"]
+            },
+            {
+              "type": "numerical",
+              "text": "<p>What is the atomic number of carbon?</p>",
+              "points": 1,
+              "answer": 6,
+              "tolerance": 0
+            },
+            {
+              "type": "essay",
+              "text": "<p>Explain in your own words what an isotope is.</p>",
+              "points": 5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "styling": {
+    "institution": "Example University",
+    "primaryColor": "#0077b3",
+    "bannerHtml": "<div style=\"background:#0077b3;color:#ffffff;padding:12px 16px;border-radius:8px;margin-bottom:16px\"><strong>CHEM-101</strong> · Example University</div>"
+  }
+}

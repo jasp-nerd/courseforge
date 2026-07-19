@@ -10,7 +10,13 @@ export interface CanvasCourse {
   account_id?: CanvasId;
   default_view?: string;
   syllabus_body?: string | null;
+  time_zone?: string;
   enrollments?: Array<{ type: string; role: string }>;
+}
+
+export interface CanvasFeatureFlag {
+  feature: string;
+  state?: string;
 }
 
 export interface CanvasAccount {

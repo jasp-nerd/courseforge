@@ -1,6 +1,7 @@
 import { createCanvas } from '@courseforge/canvas-client';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import { unzipSync } from 'fflate';
 import { HttpResponse, http } from 'msw';
 import { setupServer } from 'msw/node';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
@@ -144,17 +145,38 @@ describe('MCP protocol integration (InMemoryTransport)', () => {
     await server.close();
   });
 
-  it('builds a course from a spec via the mocked import dance', async () => {
+  it('builds a course from a spec: UTC-converted dates, import dance, verification', async () => {
+    let uploadedSettingsXml = '';
+    let migrationBody: Record<string, unknown> = {};
     msw.use(
-      http.post(`${BASE}/api/v1/courses/7/content_migrations`, () =>
+      http.get(`${BASE}/api/v1/courses/7`, () =>
         HttpResponse.json({
+          id: 7,
+          name: 'Practice',
+          course_code: 'P',
+          workflow_state: 'unpublished',
+          time_zone: 'Europe/Amsterdam',
+        }),
+      ),
+      http.get(`${BASE}/api/v1/courses/7/features/enabled`, () => HttpResponse.json([])),
+      http.post(`${BASE}/api/v1/courses/7/content_migrations`, async ({ request }) => {
+        migrationBody = (await request.json()) as Record<string, unknown>;
+        return HttpResponse.json({
           id: 88,
           workflow_state: 'pre_processing',
           progress_url: `${BASE}/api/v1/progress/9`,
           pre_attachment: { upload_url: `${BASE}/bucket`, upload_params: { key: 'k' } },
-        }),
-      ),
-      http.post(`${BASE}/bucket`, () => HttpResponse.json({}, { status: 201 })),
+        });
+      }),
+      http.post(`${BASE}/bucket`, async ({ request }) => {
+        const file = (await request.formData()).get('file') as File;
+        const entries = unzipSync(new Uint8Array(await file.arrayBuffer()));
+        const settingsPath = Object.keys(entries).find((p) =>
+          p.endsWith('assignment_settings.xml'),
+        );
+        uploadedSettingsXml = new TextDecoder().decode(entries[settingsPath as string]);
+        return HttpResponse.json({}, { status: 201 });
+      }),
       http.get(`${BASE}/api/v1/progress/9`, () =>
         HttpResponse.json({ id: 9, workflow_state: 'completed', completion: 100 }),
       ),
@@ -164,6 +186,15 @@ describe('MCP protocol integration (InMemoryTransport)', () => {
       http.get(`${BASE}/api/v1/courses/7/content_migrations/88`, () =>
         HttpResponse.json({ id: 88, workflow_state: 'completed' }),
       ),
+      http.get(`${BASE}/api/v1/courses/7/modules`, () =>
+        HttpResponse.json([{ id: 501, name: 'M1', position: 1 }]),
+      ),
+      http.get(`${BASE}/api/v1/courses/7/modules/501/items`, () =>
+        HttpResponse.json([
+          { id: 1, title: 'P', type: 'Page', position: 1 },
+          { id: 2, title: 'Essay', type: 'Assignment', position: 2 },
+        ]),
+      ),
     );
     const { client, server } = await connectedClient();
     const result = await client.callTool({
@@ -172,15 +203,112 @@ describe('MCP protocol integration (InMemoryTransport)', () => {
         course_id: '7',
         spec: {
           course: { title: 'Spec course' },
-          modules: [{ name: 'M1', items: [{ type: 'page', title: 'P', body: '<p>x</p>' }] }],
+          modules: [
+            {
+              name: 'M1',
+              items: [
+                { type: 'page', title: 'P', body: '<p>x</p>' },
+                { type: 'assignment', title: 'Essay', points: 10, dueAt: '2026-09-11T23:59:00' },
+              ],
+            },
+          ],
         },
       },
     });
     const parsed = JSON.parse(
       (result.content as Array<{ type: string; text: string }>)[0]?.text ?? '{}',
-    ) as { ok: boolean; state: string };
+    ) as {
+      ok: boolean;
+      state: string;
+      verification: { complete: boolean };
+      quizzes_routed_to_new_quizzes: boolean;
+    };
     expect(parsed.ok).toBe(true);
     expect(parsed.state).toBe('completed');
+    expect(parsed.verification.complete).toBe(true);
+    expect(parsed.quizzes_routed_to_new_quizzes).toBe(false);
+    expect(migrationBody.settings).toBeUndefined();
+    // 23:59 Amsterdam (CEST) must be written as 21:59 UTC in the cartridge.
+    expect(uploadedSettingsXml).toContain('<due_at>2026-09-11T21:59:00</due_at>');
+    await client.close();
+    await server.close();
+  }, 15000);
+
+  it('detects silently dropped quizzes and auto-routes to New Quizzes on native instances', async () => {
+    let migrationBody: Record<string, unknown> = {};
+    msw.use(
+      http.get(`${BASE}/api/v1/courses/7`, () =>
+        HttpResponse.json({ id: 7, name: 'P', course_code: 'P', workflow_state: 'unpublished' }),
+      ),
+      http.get(`${BASE}/api/v1/courses/7/features/enabled`, () =>
+        HttpResponse.json(['quizzes_next', 'new_quizzes_native_experience']),
+      ),
+      http.post(`${BASE}/api/v1/courses/7/content_migrations`, async ({ request }) => {
+        migrationBody = (await request.json()) as Record<string, unknown>;
+        return HttpResponse.json({
+          id: 89,
+          workflow_state: 'pre_processing',
+          progress_url: `${BASE}/api/v1/progress/10`,
+          pre_attachment: { upload_url: `${BASE}/bucket`, upload_params: {} },
+        });
+      }),
+      http.post(`${BASE}/bucket`, () => HttpResponse.json({}, { status: 201 })),
+      http.get(`${BASE}/api/v1/progress/10`, () =>
+        HttpResponse.json({ id: 10, workflow_state: 'completed', completion: 100 }),
+      ),
+      http.get(`${BASE}/api/v1/courses/7/content_migrations/89/migration_issues`, () =>
+        HttpResponse.json([]),
+      ),
+      http.get(`${BASE}/api/v1/courses/7/content_migrations/89`, () =>
+        HttpResponse.json({ id: 89, workflow_state: 'completed' }),
+      ),
+      http.get(`${BASE}/api/v1/courses/7/modules`, () =>
+        HttpResponse.json([{ id: 502, name: 'M1', position: 1 }]),
+      ),
+      // Canvas skipped the quiz: only the page exists.
+      http.get(`${BASE}/api/v1/courses/7/modules/502/items`, () =>
+        HttpResponse.json([{ id: 1, title: 'P', type: 'Page', position: 1 }]),
+      ),
+    );
+    const { client, server } = await connectedClient();
+    const result = await client.callTool({
+      name: 'build_course_from_spec',
+      arguments: {
+        course_id: '7',
+        spec: {
+          course: { title: 'Spec course' },
+          modules: [
+            {
+              name: 'M1',
+              items: [
+                { type: 'page', title: 'P', body: '<p>x</p>' },
+                {
+                  type: 'quiz',
+                  title: 'Check',
+                  questions: [{ type: 'true_false', text: '<p>Q</p>', correct: true }],
+                },
+              ],
+            },
+          ],
+        },
+      },
+    });
+    const parsed = JSON.parse(
+      (result.content as Array<{ type: string; text: string }>)[0]?.text ?? '{}',
+    ) as {
+      ok: boolean;
+      quizzes_routed_to_new_quizzes: boolean;
+      verification: { complete: boolean; missing: Array<{ title: string; type: string }> };
+      note: string;
+    };
+    expect(parsed.quizzes_routed_to_new_quizzes).toBe(true);
+    expect((migrationBody.settings as { import_quizzes_next?: boolean }).import_quizzes_next).toBe(
+      true,
+    );
+    expect(parsed.ok).toBe(false);
+    expect(parsed.verification.complete).toBe(false);
+    expect(parsed.verification.missing).toEqual([{ module: 'M1', title: 'Check', type: 'quiz' }]);
+    expect(parsed.note).toContain('missing');
     await client.close();
     await server.close();
   }, 15000);

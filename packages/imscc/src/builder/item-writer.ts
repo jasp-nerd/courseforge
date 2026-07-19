@@ -84,7 +84,7 @@ export function writeItem(item: ModuleItem, ctx: ItemWriteContext): WrittenItem 
       const settingsPath = `${resourceId}/assignment_settings.xml`;
       return {
         files: [
-          [bodyPath, encoder.encode(writeAssignmentHtml(item))],
+          [bodyPath, encoder.encode(writeAssignmentHtml(item, ctx.bannerHtml))],
           [
             settingsPath,
             encoder.encode(

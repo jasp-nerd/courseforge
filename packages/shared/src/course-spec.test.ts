@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseCourseSpec } from './course-spec.js';
-import { normalizeSpecDate, toCartridgeDate } from './dates.js';
+import { localDateTimeToUtc, normalizeSpecDate, toCartridgeDate } from './dates.js';
 import { isValidCartridgeId, randomId, sequentialIdGenerator } from './ids.js';
 
 const minimalSpec = {
@@ -102,6 +102,22 @@ describe('ids', () => {
 describe('dates', () => {
   it('formats cartridge dates without ms or zone', () => {
     expect(toCartridgeDate(new Date(Date.UTC(2026, 8, 1, 23, 59, 30)))).toBe('2026-09-01T23:59:30');
+  });
+
+  it('converts course-local wall clock to UTC across DST', () => {
+    // Amsterdam is UTC+2 in September (CEST) and UTC+1 in January (CET).
+    expect(localDateTimeToUtc('2026-09-11T23:59:00', 'Europe/Amsterdam')).toBe(
+      '2026-09-11T21:59:00',
+    );
+    expect(localDateTimeToUtc('2026-01-15T23:59', 'Europe/Amsterdam')).toBe('2026-01-15T22:59:00');
+    expect(localDateTimeToUtc('2026-06-01T08:00:00', 'America/New_York')).toBe(
+      '2026-06-01T12:00:00',
+    );
+    expect(localDateTimeToUtc('2026-06-01T12:00:00', 'UTC')).toBe('2026-06-01T12:00:00');
+  });
+
+  it('rejects malformed local datetimes', () => {
+    expect(() => localDateTimeToUtc('tomorrow', 'Europe/Amsterdam')).toThrow(/invalid datetime/);
   });
 
   it('normalizes minute-precision spec dates', () => {

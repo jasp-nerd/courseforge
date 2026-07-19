@@ -28,12 +28,16 @@ Write a CourseSpec JSON — the format is fully documented in [references/course
 
 ## 3. Validate, preview, approve
 
-1. Validate: MCP tool `validate_course_spec`, or CLI `npx courseforge-imscc build spec.json` (validates on build).
+1. Validate: MCP tool `validate_course_spec`, or CLI `npx -y @courseforge/imscc build spec.json` (validates on build).
 2. Show the teacher a compact plan: modules → items with type/points/dates. **Wait for explicit approval before creating anything.**
 
 ## 4. Build
 
-- **Canvas API available** (courseforge-mcp connected): `build_course_from_spec` with the target `course_id` (mode `import` is default and best). Then run `check_course_setup` and report findings.
-- **No API access**: `build_imscc_file` (MCP) or `npx courseforge-imscc build spec.json -o course.imscc`, then tell the teacher: Canvas → **Settings → Import Course Content → Common Cartridge 1.x Package** → upload → import all.
+- **Canvas API available** (courseforge-mcp connected): `build_course_from_spec` with the target `course_id` (mode `import` is default and best). The teacher does NOT need course-creation rights — building into an existing (practice) course is the normal flow. Then run `check_course_setup` and report findings.
+- **No API access**: `build_imscc_file` (MCP) or `npx -y @courseforge/imscc build spec.json -o course.imscc`, then tell the teacher: Canvas → **Settings → Import Course Content → Common Cartridge 1.x Package** → upload → import all.
 
-Report what was created, any migration issues, and remind them content is unpublished until they publish modules.
+## 5. Verify — never trust a green import alone
+
+`build_course_from_spec` returns a `verification` block comparing the spec against what actually landed; if `verification.missing` is non-empty, Canvas skipped content silently. The usual culprit is quizzes on instances where Classic Quizzes is disabled (New-Quizzes-native) — the tool auto-routes quizzes there, but if any are still missing, create them with `create_quiz` + `add_quiz_question` + `add_module_item`. After any manual build path, confirm with `list_modules` + `list_module_items` that every spec item exists.
+
+Report what was created, any migration issues, anything you had to repair, and remind them content is unpublished until they publish modules.

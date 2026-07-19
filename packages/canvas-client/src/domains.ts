@@ -45,6 +45,11 @@ export class CoursesApi {
   updateSyllabus(courseId: CanvasId, syllabusHtml: string): Promise<CanvasCourse> {
     return this.update(courseId, { syllabus_body: syllabusHtml });
   }
+
+  /** Names of feature flags enabled on a course (e.g. "new_quizzes_native_experience"). */
+  listEnabledFeatures(courseId: CanvasId): Promise<string[]> {
+    return this.client.get<string[]>(`/courses/${courseId}/features/enabled`);
+  }
 }
 
 export class ModulesApi {

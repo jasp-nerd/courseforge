@@ -45,7 +45,7 @@ Get a token in Canvas: **Account → Settings → + New access token**.
 ### 2 · No API token? Build an importable file instead
 
 ```bash
-npx courseforge-imscc build examples/intro-to-chemistry.json
+npx -y @courseforge/imscc build examples/intro-to-chemistry.json
 ```
 
 Upload the resulting `.imscc` in Canvas under **Settings → Import Course Content → Common Cartridge 1.x Package**.

@@ -1,9 +1,67 @@
 import { readFile, writeFile } from 'node:fs/promises';
+import type { Canvas, CanvasId } from '@courseforge/canvas-client';
 import { buildCartridge, validateCartridge } from '@courseforge/imscc';
-import { courseSpecSchema } from '@courseforge/shared';
+import { type CourseSpec, courseSpecSchema, localDateTimeToUtc } from '@courseforge/shared';
 import { z } from 'zod';
 import { buildCourseViaApi } from './build-live.js';
 import { READ, type ToolContext, type ToolDefinition, WRITE } from './types.js';
+
+/** Rewrite the spec's naive wall-clock datetimes into UTC for cartridge import
+ * (Canvas reads cartridge datetimes as UTC; the REST API reads them as course-local). */
+function convertSpecDatesToUtc(spec: CourseSpec, timeZone: string): CourseSpec {
+  const convert = (value?: string) => (value ? localDateTimeToUtc(value, timeZone) : value);
+  return {
+    ...spec,
+    modules: spec.modules.map((mod) => ({
+      ...mod,
+      items: mod.items.map((item) => {
+        if (item.type === 'assignment') {
+          return {
+            ...item,
+            dueAt: convert(item.dueAt),
+            unlockAt: convert(item.unlockAt),
+            lockAt: convert(item.lockAt),
+          };
+        }
+        if (item.type === 'quiz' || item.type === 'discussion') {
+          return { ...item, dueAt: convert(item.dueAt) };
+        }
+        return item;
+      }),
+    })),
+  };
+}
+
+export interface BuildVerification {
+  complete: boolean;
+  missing: Array<{ module: string; title: string; type: string }>;
+}
+
+/** Compare what the spec asked for with what actually exists in the course.
+ * Catches silently skipped content (e.g. QTI dropped on New-Quizzes-only instances). */
+async function verifyBuild(
+  canvas: Canvas,
+  courseId: CanvasId,
+  spec: CourseSpec,
+): Promise<BuildVerification> {
+  const missing: BuildVerification['missing'] = [];
+  const canvasModules = await canvas.modules.list(courseId);
+  for (const mod of spec.modules) {
+    const match = canvasModules.find((m) => m.name === mod.name);
+    if (!match) {
+      for (const item of mod.items)
+        missing.push({ module: mod.name, title: item.title, type: item.type });
+      continue;
+    }
+    const items = await canvas.modules.listItems(courseId, match.id);
+    const titles = new Set(items.map((i) => i.title));
+    for (const item of mod.items) {
+      if (!titles.has(item.title))
+        missing.push({ module: mod.name, title: item.title, type: item.type });
+    }
+  }
+  return { complete: missing.length === 0, missing };
+}
 
 /**
  * CourseForge's flagship tools: the .imscc import/export round-trip that no
@@ -162,6 +220,12 @@ export function courseImportTools({ canvas }: ToolContext): ToolDefinition[] {
         course_id: z.string().describe('Existing Canvas course to build into'),
         spec: z.record(z.string(), z.unknown()).describe('The CourseSpec object'),
         mode: z.enum(['import', 'api']).optional().default('import'),
+        import_quizzes_next: z
+          .boolean()
+          .optional()
+          .describe(
+            'Route quizzes into New Quizzes. Auto-detected when the course only supports New Quizzes; set explicitly to override.',
+          ),
       },
       annotations: WRITE,
       audience: 'educator',
@@ -169,29 +233,57 @@ export function courseImportTools({ canvas }: ToolContext): ToolDefinition[] {
         course_id,
         spec,
         mode,
+        import_quizzes_next,
       }: {
         course_id: string;
         spec: unknown;
         mode?: 'import' | 'api';
+        import_quizzes_next?: boolean;
       }) => {
         const parsed = courseSpecSchema.parse(spec);
         if (mode === 'api') {
           return buildCourseViaApi(canvas, course_id, parsed);
         }
-        const built = buildCartridge(parsed);
+
+        // Course context: time zone (dates) + feature flags (quiz engine).
+        const course = await canvas.courses.get(course_id);
+        let features: string[] = [];
+        try {
+          features = await canvas.courses.listEnabledFeatures(course_id);
+        } catch {
+          // feature listing needs no special rights, but degrade gracefully anyway
+        }
+        const specHasQuizzes = parsed.modules.some((m) => m.items.some((i) => i.type === 'quiz'));
+        const newQuizzesOnly = features.includes('new_quizzes_native_experience');
+        const routeToNewQuizzes = import_quizzes_next ?? (specHasQuizzes && newQuizzesOnly);
+
+        const localized = course.time_zone
+          ? convertSpecDatesToUtc(parsed, course.time_zone)
+          : parsed;
+
+        const built = buildCartridge(localized);
         const validation = validateCartridge(built.bytes);
         if (!validation.valid) {
           return { ok: false, stage: 'build', validation };
         }
         const result = await canvas.migrations.importCartridge(course_id, built.bytes, {
           filename: built.filename,
+          importQuizzesNext: routeToNewQuizzes,
         });
+
+        const verification = await verifyBuild(canvas, course_id, parsed).catch(() => undefined);
+        const importCompleted = result.progress.workflow_state === 'completed';
         return {
-          ok: result.progress.workflow_state === 'completed',
+          ok: importCompleted && (verification?.complete ?? true),
           migration_id: result.migration.id,
           state: result.progress.workflow_state,
           issues: result.issues,
-          note: 'Content is unpublished — review in Canvas, then publish modules.',
+          quizzes_routed_to_new_quizzes: routeToNewQuizzes,
+          verification,
+          note:
+            verification && !verification.complete
+              ? 'Some spec items are missing from the course — Canvas skipped them silently (often quizzes when Classic Quizzes is disabled). Create the missing items with the granular tools (create_quiz/add_quiz_question, create_page, ...) or retry with import_quizzes_next=true.'
+              : 'Content is unpublished — review in Canvas, then publish modules.',
         };
       },
     },

@@ -47,8 +47,9 @@ export function writePageHtml(page: PageItem, identifier: string, bannerHtml?: s
   return htmlDocument(page.title, metas, body);
 }
 
-export function writeAssignmentHtml(assignment: AssignmentItem): string {
-  return htmlDocument(`Assignment: ${assignment.title}`, '', assignment.body);
+export function writeAssignmentHtml(assignment: AssignmentItem, bannerHtml?: string): string {
+  const body = bannerHtml ? `${bannerHtml}\n${assignment.body}` : assignment.body;
+  return htmlDocument(`Assignment: ${assignment.title}`, '', body);
 }
 
 const canvasRootAttrs = {

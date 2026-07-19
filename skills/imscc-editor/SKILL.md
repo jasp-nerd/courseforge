@@ -10,8 +10,8 @@ A `.imscc` is a ZIP with `imsmanifest.xml` plus Canvas extension XMLs. The `@cou
 ## Inspect
 
 ```bash
-npx courseforge-imscc inspect course.imscc     # structure as JSON
-npx courseforge-imscc validate course.imscc    # cross-reference invariants (the #1 import-failure cause)
+npx -y @courseforge/imscc inspect course.imscc     # structure as JSON
+npx -y @courseforge/imscc validate course.imscc    # cross-reference invariants (the #1 import-failure cause)
 ```
 
 ## Modify (export → modify → re-import loop)

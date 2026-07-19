@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modules xmlns="http://canvas.instructure.com/xsd/cccv1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://canvas.instructure.com/xsd/cccv1p0 https://canvas.instructure.com/xsd/cccv1p0.xsd">
+  <module identifier="gaaaaaaaaaaaaaaaaaaaaaaaa00000003">
+    <title>Week 1 — Matter</title>
+    <workflow_state>active</workflow_state>
+    <position>1</position>
+    <require_sequential_progress>false</require_sequential_progress>
+    <locked>false</locked>
+    <items>
+      <item identifier="gaaaaaaaaaaaaaaaaaaaaaaaa00000004">
+        <content_type>ContextModuleSubHeader</content_type>
+        <workflow_state>active</workflow_state>
+        <title>Get started</title>
+        <position>1</position>
+        <new_tab></new_tab>
+        <indent>0</indent>
+        <link_settings_json>null</link_settings_json>
+      </item>
+      <item identifier="gaaaaaaaaaaaaaaaaaaaaaaaa00000006">
+        <content_type>WikiPage</content_type>
+        <workflow_state>active</workflow_state>
+        <title>Welcome &amp; Overview</title>
+        <identifierref>gaaaaaaaaaaaaaaaaaaaaaaaa00000007</identifierref>
+        <position>2</position>
+        <new_tab></new_tab>
+        <indent>0</indent>
+        <link_settings_json>null</link_settings_json>
+      </item>
+      <item identifier="gaaaaaaaaaaaaaaaaaaaaaaaa00000009">
+        <content_type>ExternalUrl</content_type>
+        <workflow_state>active</workflow_state>
+        <title>LibreTexts: Scope of Chemistry</title>
+        <url>https://chem.libretexts.org/intro</url>
+        <position>3</position>
+        <new_tab></new_tab>
+        <indent>0</indent>
+        <link_settings_json>null</link_settings_json>
+      </item>
+      <item identifier="gaaaaaaaaaaaaaaaaaaaaaaaa00000012">
+        <content_type>Assignment</content_type>
+        <workflow_state>unpublished</workflow_state>
+        <title>Lab Safety Contract</title>
+        <identifierref>gaaaaaaaaaaaaaaaaaaaaaaaa00000013</identifierref>
+        <position>4</position>
+        <new_tab></new_tab>
+        <indent>0</indent>
+        <link_settings_json>null</link_settings_json>
+      </item>
+      <item identifier="gaaaaaaaaaaaaaaaaaaaaaaaa00000015">
+        <content_type>DiscussionTopic</content_type>
+        <workflow_state>unpublished</workflow_state>
+        <title>Introduce yourself</title>
+        <identifierref>gaaaaaaaaaaaaaaaaaaaaaaaa00000016</identifierref>
+        <position>5</position>
+        <new_tab></new_tab>
+        <indent>0</indent>
+        <link_settings_json>null</link_settings_json>
+      </item>
+    </items>
+  </module>
+  <module identifier="gaaaaaaaaaaaaaaaaaaaaaaaa00000020">
+    <title>Week 2 — Atoms</title>
+    <workflow_state>unpublished</workflow_state>
+    <position>2</position>
+    <require_sequential_progress>false</require_sequential_progress>
+    <locked>false</locked>
+    <items>
+      <item identifier="gaaaaaaaaaaaaaaaaaaaaaaaa00000021">
+        <content_type>Quizzes::Quiz</content_type>
+        <workflow_state>unpublished</workflow_state>
+        <title>Atoms checkpoint</title>
+        <identifierref>gaaaaaaaaaaaaaaaaaaaaaaaa00000022</identifierref>
+        <position>1</position>
+        <new_tab></new_tab>
+        <indent>0</indent>
+        <link_settings_json>null</link_settings_json>
+      </item>
+      <item identifier="gaaaaaaaaaaaaaaaaaaaaaaaa00000041">
+        <content_type>Attachment</content_type>
+        <workflow_state>active</workflow_state>
+        <title>Periodic table handout</title>
+        <identifierref>gaaaaaaaaaaaaaaaaaaaaaaaa00000042</identifierref>
+        <position>2</position>
+        <new_tab></new_tab>
+        <indent>0</indent>
+        <link_settings_json>null</link_settings_json>
+      </item>
+    </items>
+  </module>
+</modules>

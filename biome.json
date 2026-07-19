@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/dist/**", "!fixtures/**", "!**/*.snap"]
+    "includes": ["**", "!**/dist", "!fixtures", "!**/*.snap"]
   },
   "formatter": {
     "enabled": true,

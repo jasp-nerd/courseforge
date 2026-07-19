@@ -1,0 +1,45 @@
+{
+  "name": "@courseforge/shared",
+  "version": "0.1.0",
+  "description": "Shared CourseSpec schemas and utilities for CourseForge — the common course format consumed by the IMSCC builder, MCP server, and agent skills",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasp-nerd/courseforge.git",
+    "directory": "packages/shared"
+  },
+  "keywords": [
+    "canvas-lms",
+    "course",
+    "edtech",
+    "imscc",
+    "common-cartridge"
+  ]
+}

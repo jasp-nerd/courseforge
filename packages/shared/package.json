@@ -1,6 +1,6 @@
 {
   "name": "@courseforge/shared",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Shared CourseSpec schemas and utilities for CourseForge — the common course format consumed by the IMSCC builder, MCP server, and agent skills",
   "license": "Apache-2.0",
   "type": "module",

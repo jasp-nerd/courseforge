@@ -1,6 +1,6 @@
 {
   "name": "@courseforge/imscc",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Build, parse, modify, and validate Canvas-flavored IMS Common Cartridge (.imscc) course files — works in Node and the browser",
   "license": "Apache-2.0",
   "type": "module",

@@ -1,0 +1,33 @@
+name: Bug report
+description: Something broke — a cartridge won't import, a tool errors, a client call fails
+labels: [bug]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - MCP server (courseforge-mcp)
+        - IMSCC library (@courseforge/imscc)
+        - Canvas client (@courseforge/canvas-client)
+        - Agent skills
+        - Docs / other
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Include the command/tool call, the error, and — for cartridge issues — the Canvas migration issues list if you have it.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: A spec JSON, a minimal .imscc, or the exact tool call that triggers it.
+  - type: input
+    id: version
+    attributes:
+      label: Version + environment
+      placeholder: courseforge-mcp 0.1.0, Node 22, Claude Desktop / Canvas cloud

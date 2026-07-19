@@ -1,0 +1,25 @@
+{
+  "name": "courseforge",
+  "private": true,
+  "description": "AI-powered Canvas LMS course creator — MCP server, agent skills, and an IMSCC/Common Cartridge library that build importable Canvas courses from a syllabus",
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@11.13.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "typecheck": "turbo run typecheck",
+    "changeset": "changeset",
+    "release": "turbo run build && changeset publish"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.2",
+    "@changesets/cli": "^2.29.8",
+    "turbo": "^2.6.1",
+    "typescript": "^5.9.3"
+  }
+}

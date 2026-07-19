@@ -1,0 +1,21 @@
+name: Feature request
+description: A new tool, question type, Canvas domain, or workflow you wish existed
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the teacher/designer workflow, not just the technical feature.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Contribution
+      options:
+        - label: I'd be willing to implement this with guidance

@@ -9,7 +9,7 @@
   <a href="https://modelcontextprotocol.io"><img src="https://img.shields.io/badge/MCP-server-8A2BE2" alt="MCP server"></a>
 </p>
 
-**CourseForge turns a syllabus into a real Canvas course.** Hand your AI assistant a course outline and get back modules, pages, assignments, quizzes with questions, and discussions — imported straight into Canvas LMS, or packaged as a standards-compliant `.imscc` file any Canvas instance can import. Open source, agent-native, teacher-first.
+**CourseForge turns a syllabus into a real Canvas course.** Hand your AI assistant a course outline and get back modules, pages, assignments, quizzes with questions, and discussions, imported straight into Canvas LMS or packaged as a standards-compliant `.imscc` file that any Canvas instance can import.
 
 <p align="center">
   <img src="assets/demo.gif" alt="Demo: courseforge-imscc builds and inspects a Canvas course package" width="860">
@@ -17,17 +17,17 @@
 
 ## Why CourseForge?
 
-Every existing Canvas MCP server can *read* your courses; some can create a page or an assignment. **None of them can build a whole course.** CourseForge is built around the one feature that changes the game: it generates a complete **Canvas-flavored IMS Common Cartridge** (the same format Canvas itself exports) and pushes it through Canvas's content-migrations API — so an AI agent can create an entire course, quizzes and all, in **one atomic import**. Everything arrives **unpublished**, ready for the teacher's review.
+Existing Canvas MCP servers read courses well, and some create individual pages or assignments. CourseForge builds the whole course: it generates a Canvas-flavored IMS Common Cartridge (the same format Canvas itself exports) and pushes it through Canvas's content-migrations API, so one import call creates every module, page, assignment, and quiz. The content arrives unpublished, and you review it in Canvas before students see anything.
 
 ## Quickstart
 
-### 1 · MCP server — let your AI build courses in Canvas
+### 1 · MCP server: let your AI build courses in Canvas
 
 ```bash
 npx -y courseforge-mcp init        # interactive: writes config for Claude Code/Desktop/Cursor
 ```
 
-Then ask your assistant: *“Here's my syllabus — build the course in Canvas course 12345.”*
+Then ask your assistant: *“Here's my syllabus. Build it into Canvas course 12345.”*
 
 <details>
 <summary>Manual config / Claude Code one-liner</summary>
@@ -48,9 +48,9 @@ Get a token in Canvas: **Account → Settings → + New access token**.
 npx courseforge-imscc build examples/intro-to-chemistry.json
 ```
 
-Upload the resulting `.imscc` in Canvas: **Settings → Import Course Content → Common Cartridge 1.x Package**. Done.
+Upload the resulting `.imscc` in Canvas under **Settings → Import Course Content → Common Cartridge 1.x Package**.
 
-### 3 · Agent skills — for Claude Code, Codex, Cursor & 40+ agents
+### 3 · Agent skills for Claude Code, Codex, Cursor & 40+ agents
 
 ```bash
 npx skills add jasp-nerd/courseforge      # canvas-course-builder, imscc-editor, canvas-course-qc
@@ -60,12 +60,12 @@ npx skills add jasp-nerd/courseforge      # canvas-course-builder, imscc-editor,
 
 | | |
 |---|---|
-| 🏗️ **`build_course_from_spec`** | One tool call: CourseSpec JSON → validated `.imscc` → imported into Canvas with progress + issue reporting |
-| 📦 **`@courseforge/imscc`** | Build, parse, **modify**, and validate Canvas cartridges — the export → edit → re-import loop, with QTI 1.2 quiz generation (8 question types) |
+| 🏗️ **`build_course_from_spec`** | One tool call: CourseSpec JSON → validated `.imscc` → imported into Canvas with progress and issue reporting |
+| 📦 **`@courseforge/imscc`** | Build, parse, modify, and validate Canvas cartridges (the export → edit → re-import loop), with QTI 1.2 quiz generation for 8 question types |
 | 🔌 **`courseforge-mcp`** | 20 tools: course/module/page/assignment/quiz/discussion creation, import/export, migration progress, and a pre-publish QC linter |
-| 🧠 **Agent skills** | Interview the teacher, apply university branding, preview the build plan, create everything unpublished — portable across the open Agent Skills standard |
-| 🌐 **`@courseforge/canvas-client`** | Standalone Canvas REST client: token *or* browser-cookie auth, Link-header pagination, 429 retry, the 3-step upload dance |
-| 🛡️ **Hardened & tested** | 61 tests: golden-file manifests, round-trips on real Canvas exports, zip-slip/zip-bomb/XXE guards, MSW-mocked API, MCP protocol integration |
+| 🧠 **Agent skills** | Interview the teacher, apply university branding, preview the build plan, create everything unpublished. Portable across the open Agent Skills standard |
+| 🌐 **`@courseforge/canvas-client`** | Standalone Canvas REST client: token or browser-cookie auth, Link-header pagination, 429 retry, the 3-step upload dance |
+| 🛡️ **Tested** | 61 tests: golden-file manifests, round-trips on real Canvas exports, zip-slip/zip-bomb/XXE guards, MSW-mocked API, MCP protocol integration |
 
 ## How it works
 
@@ -80,7 +80,7 @@ flowchart LR
     E -->|"export"| D
 ```
 
-The **CourseSpec** is the lingua franca — a plain JSON course description ([reference](skills/canvas-course-builder/references/course-spec.md)). Agents write it, the `imscc` package turns it into a cartridge byte-identical in structure to Canvas's own exports (including the `canvas_export.txt` flag and `cccv1p0` extension XMLs, so *nothing* is lost on import), and the MCP server pushes it through the same import pipeline the Canvas UI uses.
+A plain JSON course description called the [CourseSpec](skills/canvas-course-builder/references/course-spec.md) connects everything. Agents write it, the `imscc` package turns it into a cartridge with the same structure Canvas's own exports use (including the `canvas_export.txt` flag and `cccv1p0` extension XMLs, which preserve module structure and assignment settings on import), and the MCP server pushes it through the same import pipeline as the Canvas UI.
 
 ## Compared to existing Canvas MCP servers
 
@@ -94,7 +94,7 @@ The **CourseSpec** is the lingua franca — a plain JSON course description ([re
 | Grading / student-facing tools | — | ✅ | ✅ |
 | Language | TypeScript | Python | TypeScript |
 
-*Different goals: those are excellent course-**management** servers — CourseForge is the course-**creation** engine. Use them side by side.*
+*vishalsachdev's and bruchris's servers cover course management (grading, feedback, student workflows) far more deeply than CourseForge does. CourseForge covers creation. They run side by side without conflict.*
 
 ## Repository layout
 

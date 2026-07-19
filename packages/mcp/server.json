@@ -1,0 +1,33 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.jasp-nerd/courseforge-mcp",
+  "description": "Build real Canvas LMS courses with AI — modules, pages, assignments, quizzes, or a whole .imscc package imported in one call",
+  "repository": {
+    "url": "https://github.com/jasp-nerd/courseforge",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "courseforge-mcp",
+      "version": "0.1.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "CANVAS_BASE_URL",
+          "description": "Your Canvas URL, e.g. https://youruni.instructure.com",
+          "isRequired": true,
+          "isSecret": false
+        },
+        {
+          "name": "CANVAS_API_TOKEN",
+          "description": "Canvas personal access token (Account → Settings → New access token)",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

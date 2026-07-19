@@ -1,0 +1,23 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required: [canvasBaseUrl, canvasApiToken]
+    properties:
+      canvasBaseUrl:
+        type: string
+        title: Canvas URL
+        description: e.g. https://youruni.instructure.com
+      canvasApiToken:
+        type: string
+        title: Canvas API token
+        description: Canvas → Account → Settings → New access token
+  commandFunction: |-
+    (config) => ({
+      command: 'npx',
+      args: ['-y', 'courseforge-mcp'],
+      env: {
+        CANVAS_BASE_URL: config.canvasBaseUrl,
+        CANVAS_API_TOKEN: config.canvasApiToken,
+      },
+    })

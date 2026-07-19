@@ -1,0 +1,50 @@
+{
+  "manifest_version": "0.3",
+  "name": "courseforge-mcp",
+  "display_name": "CourseForge for Canvas",
+  "version": "0.1.0",
+  "description": "Build real Canvas LMS courses with AI — modules, pages, assignments, quizzes, or a whole .imscc course package imported in one call.",
+  "long_description": "CourseForge turns a syllabus or course idea into a real Canvas course. Draft a CourseSpec with your AI assistant, validate it, then build_course_from_spec imports everything (modules, pages, assignments, quizzes with questions, discussions, files) into Canvas in one atomic content-migration — arriving unpublished for your review. Also exports courses as .imscc for remixing and runs a pre-publish readiness check.",
+  "author": {
+    "name": "jasp-nerd",
+    "url": "https://github.com/jasp-nerd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jasp-nerd/courseforge"
+  },
+  "homepage": "https://github.com/jasp-nerd/courseforge",
+  "license": "Apache-2.0",
+  "keywords": ["canvas", "lms", "education", "course-builder", "imscc", "teaching"],
+  "server": {
+    "type": "node",
+    "entry_point": "dist/cli.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/cli.js"],
+      "env": {
+        "CANVAS_BASE_URL": "${user_config.canvas_base_url}",
+        "CANVAS_API_TOKEN": "${user_config.canvas_api_token}"
+      }
+    }
+  },
+  "user_config": {
+    "canvas_base_url": {
+      "type": "string",
+      "title": "Canvas URL",
+      "description": "Your institution's Canvas address, e.g. https://youruni.instructure.com",
+      "required": true
+    },
+    "canvas_api_token": {
+      "type": "string",
+      "title": "Canvas API token",
+      "description": "Create one in Canvas: Account → Settings → + New access token",
+      "sensitive": true,
+      "required": true
+    }
+  },
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": { "node": ">=22" }
+  }
+}

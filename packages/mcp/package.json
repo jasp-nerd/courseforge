@@ -17,7 +17,11 @@
   "bin": {
     "courseforge-mcp": "./dist/cli.js"
   },
-  "files": ["dist", "manifest.json", "server.json"],
+  "files": [
+    "dist",
+    "manifest.json",
+    "server.json"
+  ],
   "scripts": {
     "build": "tsup",
     "test": "vitest run",

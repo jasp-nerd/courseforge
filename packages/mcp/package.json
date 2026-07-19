@@ -1,6 +1,6 @@
 {
   "name": "courseforge-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "MCP server that builds real Canvas LMS courses — create modules, pages, assignments, and quizzes, or import a whole AI-generated .imscc course package in one tool call",
   "license": "Apache-2.0",
   "type": "module",

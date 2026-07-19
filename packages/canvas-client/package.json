@@ -1,6 +1,6 @@
 {
   "name": "@courseforge/canvas-client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Standalone Canvas LMS REST client — token or cookie-session auth, Link-header pagination, rate-limit retry, 3-step file uploads, and the content_migrations .imscc import dance",
   "license": "Apache-2.0",
   "type": "module",

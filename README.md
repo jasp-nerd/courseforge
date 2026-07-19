@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="CourseForge — from syllabus to a real Canvas course" width="820">
+  <img src="assets/banner.svg" alt="courseforge: from syllabus to a real Canvas course" width="780">
 </p>
 
 <p align="center">

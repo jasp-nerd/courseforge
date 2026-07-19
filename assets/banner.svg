@@ -1,37 +1,64 @@
-<svg width="880" height="220" viewBox="0 0 880 220" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CourseForge — AI-powered Canvas course creator">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="880" y2="220" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#0f172a"/>
-      <stop offset="1" stop-color="#1e293b"/>
-    </linearGradient>
-    <linearGradient id="flame" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#fb923c"/>
-      <stop offset="1" stop-color="#e11d48"/>
-    </linearGradient>
-    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#fb923c"/>
-      <stop offset="1" stop-color="#38bdf8"/>
-    </linearGradient>
-  </defs>
-
-  <rect width="880" height="220" rx="16" fill="url(#bg)"/>
-
-  <!-- anvil + spark motif -->
-  <g transform="translate(64,58)">
-    <path d="M8 62 h88 l-12 16 h-24 v14 h20 l6 12 h-68 l6 -12 h20 v-14 h-24 z" fill="#334155"/>
-    <path d="M0 40 h104 l-8 22 h-88 z" fill="#475569"/>
-    <!-- spark/flame -->
-    <path d="M52 0 c10 12 22 18 22 32 a22 22 0 1 1 -44 0 c0 -14 12 -20 22 -32 z" fill="url(#flame)"/>
-    <circle cx="52" cy="34" r="8" fill="#fef3c7"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="164" viewBox="0 0 780 164" role="img" aria-label="courseforge: from syllabus to a real Canvas course">
+  <g shape-rendering="crispEdges" transform="translate(16,5)">
+    <rect x="70" y="0" width="14" height="14" fill="#ff8700"/>
+    <rect x="56" y="14" width="14" height="14" fill="#ff8700"/>
+    <rect x="70" y="14" width="14" height="14" fill="#ff8700"/>
+    <rect x="84" y="14" width="14" height="14" fill="#ff8700"/>
+    <rect x="42" y="28" width="14" height="14" fill="#ff8700"/>
+    <rect x="56" y="28" width="14" height="14" fill="#ff8700"/>
+    <rect x="70" y="28" width="14" height="14" fill="#ff8700"/>
+    <rect x="84" y="28" width="14" height="14" fill="#ff8700"/>
+    <rect x="42" y="42" width="14" height="14" fill="#ff8700"/>
+    <rect x="56" y="42" width="14" height="14" fill="#ffc266"/>
+    <rect x="70" y="42" width="14" height="14" fill="#ffc266"/>
+    <rect x="84" y="42" width="14" height="14" fill="#ff8700"/>
+    <rect x="28" y="56" width="14" height="14" fill="#ff8700"/>
+    <rect x="42" y="56" width="14" height="14" fill="#ff8700"/>
+    <rect x="56" y="56" width="14" height="14" fill="#ffc266"/>
+    <rect x="70" y="56" width="14" height="14" fill="#ffc266"/>
+    <rect x="84" y="56" width="14" height="14" fill="#ff8700"/>
+    <rect x="98" y="56" width="14" height="14" fill="#ff8700"/>
+    <rect x="42" y="70" width="14" height="14" fill="#ff8700"/>
+    <rect x="56" y="70" width="14" height="14" fill="#ff8700"/>
+    <rect x="70" y="70" width="14" height="14" fill="#ff8700"/>
+    <rect x="84" y="70" width="14" height="14" fill="#ff8700"/>
+    <rect x="0" y="84" width="14" height="14" fill="#2d3c50"/>
+    <rect x="14" y="84" width="14" height="14" fill="#2d3c50"/>
+    <rect x="28" y="84" width="14" height="14" fill="#2d3c50"/>
+    <rect x="42" y="84" width="14" height="14" fill="#2d3c50"/>
+    <rect x="56" y="84" width="14" height="14" fill="#2d3c50"/>
+    <rect x="70" y="84" width="14" height="14" fill="#2d3c50"/>
+    <rect x="84" y="84" width="14" height="14" fill="#2d3c50"/>
+    <rect x="98" y="84" width="14" height="14" fill="#2d3c50"/>
+    <rect x="112" y="84" width="14" height="14" fill="#2d3c50"/>
+    <rect x="126" y="84" width="14" height="14" fill="#2d3c50"/>
+    <rect x="28" y="98" width="14" height="14" fill="#2d3c50"/>
+    <rect x="42" y="98" width="14" height="14" fill="#2d3c50"/>
+    <rect x="56" y="98" width="14" height="14" fill="#2d3c50"/>
+    <rect x="70" y="98" width="14" height="14" fill="#2d3c50"/>
+    <rect x="84" y="98" width="14" height="14" fill="#2d3c50"/>
+    <rect x="98" y="98" width="14" height="14" fill="#2d3c50"/>
+    <rect x="112" y="98" width="14" height="14" fill="#2d3c50"/>
+    <rect x="56" y="112" width="14" height="14" fill="#2d3c50"/>
+    <rect x="70" y="112" width="14" height="14" fill="#2d3c50"/>
+    <rect x="84" y="112" width="14" height="14" fill="#2d3c50"/>
+    <rect x="42" y="126" width="14" height="14" fill="#2d3c50"/>
+    <rect x="56" y="126" width="14" height="14" fill="#2d3c50"/>
+    <rect x="70" y="126" width="14" height="14" fill="#2d3c50"/>
+    <rect x="84" y="126" width="14" height="14" fill="#2d3c50"/>
+    <rect x="98" y="126" width="14" height="14" fill="#2d3c50"/>
+    <rect x="28" y="140" width="14" height="14" fill="#2d3c50"/>
+    <rect x="42" y="140" width="14" height="14" fill="#2d3c50"/>
+    <rect x="56" y="140" width="14" height="14" fill="#2d3c50"/>
+    <rect x="70" y="140" width="14" height="14" fill="#2d3c50"/>
+    <rect x="84" y="140" width="14" height="14" fill="#2d3c50"/>
+    <rect x="98" y="140" width="14" height="14" fill="#2d3c50"/>
+    <rect x="112" y="140" width="14" height="14" fill="#2d3c50"/>
   </g>
-
-  <text x="208" y="102" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="56" font-weight="800" fill="#f8fafc" letter-spacing="-1">Course<tspan fill="#fb923c">Forge</tspan></text>
-  <text x="210" y="140" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="21" fill="#cbd5e1">From syllabus to a real Canvas course — MCP server, agent skills &amp; IMSCC toolkit</text>
-
-  <rect x="210" y="160" width="420" height="4" rx="2" fill="url(#accent)"/>
-
-  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" fill="#94a3b8">
-    <text x="210" y="192">npx -y courseforge-mcp</text>
-    <text x="470" y="192" fill="#64748b">·  Apache-2.0  ·  TypeScript</text>
-  </g>
+  <text x="200" y="70" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+        font-size="46" font-weight="bold" fill="#ff8700">courseforge</text>
+  <text x="200" y="104" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+        font-size="18" fill="#808080" font-style="italic">from syllabus to Canvas course, forged by your AI agent</text>
+  <text x="200" y="132" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+        font-size="14" fill="#9a9a9a">canvas-lms &#183; .imscc &#183; 20 MCP tools &#183; 3 agent skills &#183; Apache-2.0</text>
 </svg>

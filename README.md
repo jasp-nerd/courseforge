@@ -11,7 +11,9 @@
 
 **CourseForge turns a syllabus into a real Canvas course.** Hand your AI assistant a course outline and get back modules, pages, assignments, quizzes with questions, and discussions — imported straight into Canvas LMS, or packaged as a standards-compliant `.imscc` file any Canvas instance can import. Open source, agent-native, teacher-first.
 
-> 🎬 *Demo GIF coming here — `assets/demo.tape` has the [VHS](https://github.com/charmbracelet/vhs) script to record it.*
+<p align="center">
+  <img src="assets/demo.gif" alt="Demo: courseforge-imscc builds and inspects a Canvas course package" width="860">
+</p>
 
 ## Why CourseForge?
 
@@ -69,13 +71,13 @@ npx skills add jasp-nerd/courseforge      # canvas-course-builder, imscc-editor,
 
 ```mermaid
 flowchart LR
-    A[📄 Syllabus / course idea] --> B[🤖 AI agent<br/>+ canvas-course-builder skill]
-    B --> C[CourseSpec JSON<br/>Zod-validated]
-    C -->|@courseforge/imscc| D[📦 .imscc<br/>Canvas cartridge]
-    D -->|content_migrations API| E[🎓 Canvas course<br/>unpublished, ready for review]
-    D -->|manual upload| E
-    C -->|mode: api| E
-    E -->|export| D
+    A["📄 Syllabus / course idea"] --> B["🤖 AI agent<br/>+ canvas-course-builder skill"]
+    B --> C["CourseSpec JSON<br/>Zod-validated"]
+    C -->|"@courseforge/imscc"| D["📦 .imscc<br/>Canvas cartridge"]
+    D -->|"content_migrations API"| E["🎓 Canvas course<br/>unpublished, ready for review"]
+    D -->|"manual upload"| E
+    C -->|"mode: api"| E
+    E -->|"export"| D
 ```
 
 The **CourseSpec** is the lingua franca — a plain JSON course description ([reference](skills/canvas-course-builder/references/course-spec.md)). Agents write it, the `imscc` package turns it into a cartridge byte-identical in structure to Canvas's own exports (including the `canvas_export.txt` flag and `cccv1p0` extension XMLs, so *nothing* is lost on import), and the MCP server pushes it through the same import pipeline the Canvas UI uses.

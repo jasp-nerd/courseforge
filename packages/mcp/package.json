@@ -1,0 +1,62 @@
+{
+  "name": "courseforge-mcp",
+  "version": "0.1.0",
+  "description": "MCP server that builds real Canvas LMS courses — create modules, pages, assignments, and quizzes, or import a whole AI-generated .imscc course package in one tool call",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "bin": {
+    "courseforge-mcp": "./dist/cli.js"
+  },
+  "files": ["dist", "manifest.json", "server.json"],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/cli.js"
+  },
+  "dependencies": {
+    "@courseforge/canvas-client": "workspace:*",
+    "@courseforge/imscc": "workspace:*",
+    "@courseforge/shared": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.20.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "msw": "^2.11.5",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasp-nerd/courseforge.git",
+    "directory": "packages/mcp"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "canvas-lms",
+    "canvas",
+    "instructure",
+    "lms",
+    "education",
+    "edtech",
+    "course-builder",
+    "imscc",
+    "common-cartridge",
+    "claude",
+    "ai"
+  ]
+}

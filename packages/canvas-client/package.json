@@ -1,0 +1,45 @@
+{
+  "name": "@courseforge/canvas-client",
+  "version": "0.1.0",
+  "description": "Standalone Canvas LMS REST client — token or cookie-session auth, Link-header pagination, rate-limit retry, 3-step file uploads, and the content_migrations .imscc import dance",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "msw": "^2.11.5",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasp-nerd/courseforge.git",
+    "directory": "packages/canvas-client"
+  },
+  "keywords": [
+    "canvas-lms",
+    "canvas-api",
+    "instructure",
+    "lms",
+    "api-client",
+    "education"
+  ]
+}

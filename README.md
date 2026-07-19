@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="courseforge: from syllabus to a real Canvas course" width="780">
+  <img src="assets/banner.svg" alt="courseforge: from syllabus to a real Canvas course" width="900">
 </p>
 
 <p align="center">
-  <a href="https://github.com/jasp-nerd/courseforge/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/jasp-nerd/courseforge/ci.yml?branch=main&label=CI" alt="CI status"></a>
-  <a href="https://www.npmjs.com/package/courseforge-mcp"><img src="https://img.shields.io/npm/v/courseforge-mcp?label=courseforge-mcp" alt="npm version"></a>
+  <a href="https://github.com/jasp-nerd/courseforge/actions/workflows/ci.yml"><img src="https://github.com/jasp-nerd/courseforge/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI status"></a>
+  <a href="https://www.npmjs.com/package/courseforge-mcp"><img src="https://img.shields.io/npm/v/courseforge-mcp.svg?label=courseforge-mcp&color=cb3837" alt="npm version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="Apache-2.0 license"></a>
   <a href="https://modelcontextprotocol.io"><img src="https://img.shields.io/badge/MCP-server-8A2BE2" alt="MCP server"></a>
 </p>
